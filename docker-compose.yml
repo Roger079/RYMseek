@@ -1,0 +1,35 @@
+# docker-compose.yml
+# Reference setup illustrating how slskd downloads directly into a shared music library mounted by Navidrome.
+
+services:
+  slskd:
+    image: slskd/slskd:latest
+    container_name: slskd
+    restart: unless-stopped
+    ports:
+      - "5030:5030"     # Web UI & REST API
+      - "50300:50300"   # Soulseek peer transfer port
+    environment:
+      - SLSKD_REMOTE_CONFIGURATION=true
+      - SLSKD_SLSK_USERNAME=${SOULSEEK_USERNAME:-}
+      - SLSKD_SLSK_PASSWORD=${SOULSEEK_PASSWORD:-}
+    volumes:
+      - ./slskd/app:/app
+      # slskd downloads directly into the shared music directory
+      - ./music:/music:rw
+      - ./music:/app/downloads:rw
+
+  navidrome:
+    image: deluan/navidrome:latest
+    container_name: navidrome
+    restart: unless-stopped
+    ports:
+      - "4533:4533"     # Navidrome Web UI
+    environment:
+      - ND_SCANSCHEDULE=1h      # Rescan interval (or set ND_AUTO_SCAN=true)
+      - ND_LOGLEVEL=info
+      - ND_BASEURL=https://music.furroge.uk
+    volumes:
+      - ./navidrome/data:/data
+      # Mounts the exact same music directory as read-only
+      - ./music:/music:ro

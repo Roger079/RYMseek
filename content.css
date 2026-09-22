@@ -1,0 +1,250 @@
+/* content.css - Styling for RYMseek download button on RateYourMusic */
+
+.rymseek-container {
+  display: inline-flex;
+  position: relative;
+  vertical-align: middle;
+  margin-left: 6px;
+  align-items: center;
+}
+
+/* Button matching RYM rounded square icons (Spotify, Bandcamp, Apple Music, etc.) */
+.rymseek-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 5px;
+  background: #1f2836;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #38bdf8;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  position: relative;
+  outline: none;
+  box-sizing: border-box;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  text-decoration: none;
+}
+
+.rymseek-btn:hover {
+  background: #2a374a;
+  border-color: #38bdf8;
+  color: #7dd3fc;
+  box-shadow: 0 0 8px rgba(56, 189, 248, 0.35);
+  transform: translateY(-1px);
+}
+
+.rymseek-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* SVG icons within the button */
+.rymseek-btn svg {
+  width: 20px;
+  height: 20px;
+  display: block;
+  fill: currentColor;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+/* State Visibility */
+.rymseek-btn .rymseek-icon-idle,
+.rymseek-btn .rymseek-icon-loading,
+.rymseek-btn .rymseek-icon-success,
+.rymseek-btn .rymseek-icon-error {
+  display: none;
+}
+
+/* Idle State */
+.rymseek-btn[data-state="idle"] .rymseek-icon-idle {
+  display: block;
+}
+
+/* Loading State */
+.rymseek-btn[data-state="loading"] {
+  cursor: wait;
+  border-color: #38bdf8;
+  background: #192738;
+}
+
+.rymseek-btn[data-state="loading"] .rymseek-icon-loading {
+  display: block;
+  animation: rymseek-spin 0.9s linear infinite;
+  color: #38bdf8;
+}
+
+/* Downloading State (Active Transfer Watcher) */
+.rymseek-btn[data-state="downloading"] {
+  cursor: pointer;
+  border-color: #38bdf8;
+  background: #0c233c;
+  color: #38bdf8;
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.45);
+}
+
+.rymseek-btn[data-state="downloading"] .rymseek-icon-idle {
+  display: block;
+  animation: rymseek-pulse 1.3s ease-in-out infinite;
+  color: #38bdf8;
+}
+
+/* Success State */
+.rymseek-btn[data-state="success"] {
+  border-color: #10b981;
+  background: #064e3b;
+  color: #34d399;
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
+}
+
+.rymseek-btn[data-state="success"] .rymseek-icon-success {
+  display: block;
+  animation: rymseek-pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Error State */
+.rymseek-btn[data-state="error"] {
+  border-color: #ef4444;
+  background: #450a0a;
+  color: #f87171;
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.4);
+}
+
+.rymseek-btn[data-state="error"] .rymseek-icon-error {
+  display: block;
+  animation: rymseek-shake 0.35s ease-in-out;
+}
+
+/* Custom Tooltip */
+.rymseek-tooltip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  background: #0f172a;
+  color: #f8fafc;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.4;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+  z-index: 999999;
+  max-width: 260px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+/* Tooltip arrow */
+.rymseek-tooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #0f172a transparent transparent transparent;
+}
+
+/* Tooltip visibility on hover or active state */
+.rymseek-container:hover .rymseek-tooltip,
+.rymseek-btn[data-state="error"] + .rymseek-tooltip,
+.rymseek-btn[data-state="loading"] + .rymseek-tooltip,
+.rymseek-btn[data-state="downloading"] + .rymseek-tooltip,
+.rymseek-btn[data-state="success"] + .rymseek-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Tooltip downloading style */
+.rymseek-btn[data-state="downloading"] + .rymseek-tooltip {
+  border-color: #38bdf8;
+  background: #081726;
+  color: #bae6fd;
+}
+
+.rymseek-btn[data-state="downloading"] + .rymseek-tooltip::after {
+  border-color: #081726 transparent transparent transparent;
+}
+
+/* Tooltip error style */
+.rymseek-btn[data-state="error"] + .rymseek-tooltip {
+  border-color: #ef4444;
+  background: #1e0909;
+  color: #fca5a5;
+}
+
+.rymseek-btn[data-state="error"] + .rymseek-tooltip::after {
+  border-color: #1e0909 transparent transparent transparent;
+}
+
+/* Tooltip success style */
+.rymseek-btn[data-state="success"] + .rymseek-tooltip {
+  border-color: #10b981;
+  background: #022c22;
+  color: #6ee7b7;
+}
+
+.rymseek-btn[data-state="success"] + .rymseek-tooltip::after {
+  border-color: #022c22 transparent transparent transparent;
+}
+
+/* Animations */
+@keyframes rymseek-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes rymseek-pulse {
+  0%, 100% {
+    transform: scale(0.92);
+    opacity: 0.75;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+}
+
+@keyframes rymseek-pop {
+  0% {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  70% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes rymseek-shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  20%, 60% {
+    transform: translateX(-3px);
+  }
+  40%, 80% {
+    transform: translateX(3px);
+  }
+}
