@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RYMseek</title>
+  <style>
+    :root {
+      --bg: #0b0f19;
+      --card-bg: #151d2d;
+      --border: rgba(255, 255, 255, 0.08);
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --primary: #38bdf8;
+      --success: #10b981;
+      --error: #ef4444;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      width: 320px;
+      padding: 16px;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .icon-box {
+      width: 32px;
+      height: 32px;
+      border-radius: 7px;
+      background: linear-gradient(135deg, #0284c7, #38bdf8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .icon-box svg {
+      width: 18px;
+      height: 18px;
+      fill: #ffffff;
+    }
+
+    .title-box h2 {
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    .title-box p {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .info-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+
+    .info-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .info-label {
+      color: var(--text-muted);
+    }
+
+    .info-val {
+      font-weight: 600;
+      max-width: 180px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .badge-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      padding: 2px 7px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .badge-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #94a3b8;
+    }
+
+    .badge-status.connected .badge-dot {
+      background: var(--success);
+      box-shadow: 0 0 6px var(--success);
+    }
+
+    .badge-status.error .badge-dot {
+      background: var(--error);
+      box-shadow: 0 0 6px var(--error);
+    }
+
+    .btn-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    button, a.btn-link {
+      width: 100%;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      transition: all 0.2s;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .btn-test {
+      background: #1e293b;
+      color: #e2e8f0;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .btn-test:hover {
+      background: #334155;
+      color: #fff;
+    }
+
+    .btn-options {
+      background: rgba(56, 189, 248, 0.12);
+      color: var(--primary);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+    }
+
+    .btn-options:hover {
+      background: rgba(56, 189, 248, 0.22);
+    }
+
+    .btn-navidrome {
+      background: #10b981;
+      color: #022c22;
+    }
+
+    .btn-navidrome:hover {
+      background: #059669;
+      color: #ffffff;
+    }
+
+    .test-feedback {
+      font-size: 11px;
+      margin-top: 8px;
+      padding: 6px 8px;
+      border-radius: 5px;
+      display: none;
+      text-align: center;
+    }
+
+    .test-feedback.ok {
+      display: block;
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+    }
+
+    .test-feedback.err {
+      display: block;
+      background: rgba(239, 68, 68, 0.15);
+      color: #f87171;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="icon-box">
+      <svg viewBox="0 0 24 24">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 14.5v-3.5h2.5L12 8.5 8.5 13H11v3.5h2zm-4.7-6.8c-.5 0-.9-.4-.9-.9s.4-.9.9-.9.9.4.9.9-.4.9-.9.9zm7.4 0c-.5 0-.9-.4-.9-.9s.4-.9.9-.9.9.4.9.9-.4.9-.9.9z"/>
+      </svg>
+    </div>
+    <div class="title-box">
+      <h2>RYMseek</h2>
+      <p>RateYourMusic &rarr; slskd</p>
+    </div>
+  </div>
+
+  <div class="info-card">
+    <div class="info-row">
+      <span class="info-label">slskd Server</span>
+      <span class="info-val" id="val-slskd-url">-</span>
+    </div>
+    <div class="info-row">
+      <span class="info-label">Status</span>
+      <span class="badge-status" id="badge-status">
+        <span class="badge-dot"></span>
+        <span id="text-status">Checking...</span>
+      </span>
+    </div>
+    <div class="info-row">
+      <span class="info-label">Format</span>
+      <span class="info-val" id="val-format">-</span>
+    </div>
+  </div>
+
+  <div class="btn-stack">
+    <button type="button" id="btn-quick-test" class="btn-test">Test Connection</button>
+    <a href="#" id="link-open-navidrome" class="btn-link btn-navidrome" target="_blank" rel="noopener">Open Navidrome ↗</a>
+    <button type="button" id="btn-open-options" class="btn-options">Extension Options ⚙</button>
+  </div>
+
+  <div id="test-feedback" class="test-feedback"></div>
+
+  <script type="module" src="popup.js"></script>
+</body>
+</html>

@@ -30,9 +30,19 @@ Write-Host " Batch Script:     $BatchScript" -ForegroundColor White
 Write-Host " Debounce Window:  $DebounceSeconds seconds" -ForegroundColor White
 Write-Host "==========================================================" -ForegroundColor Cyan
 
+# Auto-detect batch script in the same directory if default path does not exist
 if (-not (Test-Path $BatchScript)) {
-    Write-Host "[WARNING] Script not found at: $BatchScript" -ForegroundColor Yellow
-    Write-Host "Edit line 17 of this file or pass: -BatchScript 'C:\your\path.bat'" -ForegroundColor Yellow
+    $found = Get-ChildItem -Path $PSScriptRoot -Filter "*.bat" -ErrorAction SilentlyContinue | Where-Object { 
+        $_.Name -notmatch "^(start-listener|autostart|setup-autostart)\.bat$" 
+    } | Select-Object -First 1
+
+    if ($found) {
+        $BatchScript = $found.FullName
+        Write-Host "[AUTO-DETECT] Using batch script found in folder: $BatchScript" -ForegroundColor Green
+    } else {
+        Write-Host "[WARNING] Batch script not found: $BatchScript" -ForegroundColor Yellow
+        Write-Host "Place your .bat file in this folder ($PSScriptRoot) or pass -BatchScript 'C:\path.bat'" -ForegroundColor Yellow
+    }
 }
 
 $listener = [System.Net.Sockets.TcpListener]::new([System.Net.IPAddress]::Any, $Port)

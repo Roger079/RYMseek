@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RYMseek Settings - slskd & Navidrome</title>
+  <style>
+    :root {
+      --bg: #0b0f19;
+      --card-bg: #151d2d;
+      --card-border: rgba(255, 255, 255, 0.08);
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --primary: #38bdf8;
+      --primary-hover: #0ea5e9;
+      --success: #10b981;
+      --error: #ef4444;
+      --input-bg: #0c121e;
+      --input-border: rgba(255, 255, 255, 0.14);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      padding: 36px 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      max-width: 680px;
+      width: 100%;
+    }
+
+    header {
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #0284c7, #38bdf8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3);
+    }
+
+    .brand-icon svg {
+      width: 22px;
+      height: 22px;
+      fill: #ffffff;
+    }
+
+    h1 {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .subtitle {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .header-links {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-link {
+      font-size: 12px;
+      color: var(--primary);
+      text-decoration: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      background: rgba(56, 189, 248, 0.06);
+      transition: all 0.2s;
+    }
+
+    .btn-link:hover {
+      background: rgba(56, 189, 248, 0.15);
+      border-color: var(--primary);
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    }
+
+    .card-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--card-border);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-group:last-child {
+      margin-bottom: 0;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #e2e8f0;
+    }
+
+    .field-hint {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 5px;
+    }
+
+    input[type="text"],
+    input[type="password"],
+    input[type="number"],
+    select {
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: 8px;
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
+    }
+
+    .form-row {
+      display: flex;
+      gap: 16px;
+    }
+
+    .form-row .form-group {
+      flex: 1;
+    }
+
+    .actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    button {
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 11px 22px;
+      border-radius: 8px;
+      border: none;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #04121d;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-hover);
+      box-shadow: 0 4px 14px rgba(56, 189, 248, 0.4);
+    }
+
+    .btn-secondary {
+      background: #1e293b;
+      color: #e2e8f0;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .btn-secondary:hover {
+      background: #334155;
+      color: #ffffff;
+    }
+
+    .status-msg {
+      margin-top: 16px;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      display: none;
+    }
+
+    .status-msg.success {
+      display: block;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: #34d399;
+    }
+
+    .status-msg.error {
+      display: block;
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #f87171;
+    }
+
+    .status-msg.loading {
+      display: block;
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      color: var(--primary);
+    }
+
+    .divider-text {
+      display: flex;
+      align-items: center;
+      text-align: center;
+      margin: 16px 0;
+      color: var(--text-muted);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .divider-text::before,
+    .divider-text::after {
+      content: '';
+      flex: 1;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .divider-text:not(:empty)::before {
+      margin-right: .75em;
+    }
+
+    .divider-text:not(:empty)::after {
+      margin-left: .75em;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="brand-icon">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 14.5v-3.5h2.5L12 8.5 8.5 13H11v3.5h2zm-4.7-6.8c-.5 0-.9-.4-.9-.9s.4-.9.9-.9.9.4.9.9-.4.9-.9.9zm7.4 0c-.5 0-.9-.4-.9-.9s.4-.9.9-.9.9.4.9.9-.4.9-.9.9z"/>
+          </svg>
+        </div>
+        <div>
+          <h1>RYMseek Settings</h1>
+          <div class="subtitle">RateYourMusic direct downloader to slskd & Navidrome</div>
+        </div>
+      </div>
+      <div class="header-links">
+        <a href="https://music.furroge.uk" id="link-navidrome" class="btn-link" target="_blank" rel="noopener">Open Navidrome ↗</a>
+        <a href="https://slskd.furroge.uk" id="link-slskd" class="btn-link" target="_blank" rel="noopener">Open slskd ↗</a>
+      </div>
+    </header>
+
+    <form id="settings-form">
+      <!-- slskd Server Configuration -->
+      <div class="card">
+        <div class="card-title">slskd Server & Authentication</div>
+        
+        <div class="form-group">
+          <label for="slskd_url">slskd Base URL</label>
+          <input type="text" id="slskd_url" placeholder="https://slskd.furroge.uk" required>
+          <div class="field-hint">The web address of your slskd instance.</div>
+        </div>
+
+        <div class="divider-text">Authentication (Choose either Username/Password or API Key)</div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="slskd_username">slskd Web Username</label>
+            <input type="text" id="slskd_username" placeholder="e.g. slskd or your login user">
+            <div class="field-hint">The username you use to log into the slskd Web UI.</div>
+          </div>
+
+          <div class="form-group">
+            <label for="slskd_password">slskd Web Password</label>
+            <input type="password" id="slskd_password" placeholder="••••••••">
+            <div class="field-hint">The password you use to log into the slskd Web UI.</div>
+          </div>
+        </div>
+
+        <div class="divider-text">OR</div>
+
+        <div class="form-group">
+          <label for="slskd_api_key">slskd API Key</label>
+          <input type="password" id="slskd_api_key" placeholder="Enter API key configured in slskd.yml">
+          <div class="field-hint">If configured under web.authentication.api_keys in slskd.yml.</div>
+        </div>
+
+        <div class="form-group" style="margin-top: 16px;">
+          <label for="navidrome_url">Navidrome URL (Optional)</label>
+          <input type="text" id="navidrome_url" placeholder="https://music.furroge.uk">
+          <div class="field-hint">URL of your Navidrome music streaming web app.</div>
+        </div>
+      </div>
+
+      <!-- Download & Heuristic Filters -->
+      <div class="card">
+        <div class="card-title">Search & Heuristic Selection Filters</div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="preferred_format">Preferred Audio Format</label>
+            <select id="preferred_format">
+              <option value="flac">FLAC Lossless Only (Recommended)</option>
+              <option value="mp3_320">MP3 320 kbps</option>
+              <option value="any">Any (FLAC preferred, then MP3 320)</option>
+            </select>
+            <div class="field-hint">Prioritizes folders matching this audio quality.</div>
+          </div>
+
+          <div class="form-group">
+            <label for="min_upload_speed_kbps">Min Upload Speed (KB/s)</label>
+            <input type="number" id="min_upload_speed_kbps" min="0" placeholder="0">
+            <div class="field-hint">Skip peers with upload speeds below this (0 = disabled).</div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="max_user_queue">Max Peer Queue Length</label>
+            <input type="number" id="max_user_queue" min="1" max="500" value="50">
+            <div class="field-hint">Skip peers with download queues exceeding this count.</div>
+          </div>
+
+          <div class="form-group">
+            <label for="search_timeout_seconds">Search Timeout (seconds)</label>
+            <input type="number" id="search_timeout_seconds" min="3" max="60" value="15">
+            <div class="field-hint">How long to wait for slskd search responses.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Download Monitoring & Auto-Fallback -->
+      <div class="card">
+        <div class="card-title">Download Monitoring & Auto-Fallback</div>
+
+        <div class="form-group" style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px;">
+          <input type="checkbox" id="watch_downloads" style="width: auto; height: auto; transform: scale(1.2); cursor: pointer;" checked>
+          <label for="watch_downloads" style="margin-bottom: 0; cursor: pointer;">
+            Watch Downloads & Auto-Fallback to Alternative Sources
+          </label>
+        </div>
+        <div class="field-hint" style="margin-bottom: 16px;">
+          Monitors transfer progress in slskd. If the peer goes offline or files fail, RYMseek cancels stalled transfers and automatically tries the next best source.
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="max_fallback_attempts">Max Alternative Sources to Try</label>
+            <input type="number" id="max_fallback_attempts" min="1" max="10" value="3">
+            <div class="field-hint">Maximum alternative peer directories to try before giving up.</div>
+          </div>
+
+          <div class="form-group">
+            <label for="fail_threshold_percent">Failure Threshold (%)</label>
+            <input type="number" id="fail_threshold_percent" min="10" max="90" value="30">
+            <div class="field-hint">Percentage of failed tracks that triggers an automatic switch to the next source.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Post-Download Webhook (Beets / Local & Remote Automation) -->
+      <div class="card">
+        <div class="card-title">Post-Download Automation Webhook</div>
+        <div class="form-group">
+          <label for="post_download_webhook_url">Post-Download Webhook URL (Optional)</label>
+          <div style="display: flex; gap: 8px;">
+            <input type="text" id="post_download_webhook_url" placeholder="e.g. http://localhost:8888/webhook/ or https://webhook.furroge.uk/run">
+            <button type="button" id="btn-test-webhook" class="btn-secondary" style="white-space: nowrap;">Test Webhook</button>
+          </div>
+          <div class="field-hint">
+            Optional HTTP/HTTPS endpoint to trigger once an entire album finishes downloading. Use this to automatically execute your Windows .bat script (running beets and triggering a Navidrome scan) on your remote server.
+          </div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button type="submit" class="btn-primary">Save Settings</button>
+        <button type="button" id="btn-test" class="btn-secondary">Test Connection</button>
+      </div>
+
+      <div id="status-msg" class="status-msg"></div>
+    </form>
+  </div>
+
+  <script type="module" src="options.js"></script>
+</body>
+</html>
